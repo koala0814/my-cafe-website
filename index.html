@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>輕旅咖啡 | HAND DRIP CAFE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* ===== CSS Variables ===== */
+        :root {
+            --primary: #8B4513;
+            --primary-light: #A0522D;
+            --secondary: #D4A76A;
+            --accent: #C19A6B;
+            --light: #FAF7F2;
+            --dark: #2C1810;
+            --gray: #6B7280;
+            --gray-light: #E5E7EB;
+            --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            --shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+            --shadow-hover: 0 10px 30px rgba(0, 0, 0, 0.12);
+            --radius: 12px;
+        }
+
+        /* ===== Base Styles ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Noto Sans TC', sans-serif;
+            color: var(--dark);
+            background-color: var(--light);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, h5 {
+            font-family: 'Playfair Display', serif;
+            font-weight: 600;
+            line-height: 1.2;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 14px 32px;
+            background-color: var(--primary);
+            color: white;
+            border-radius: var(--radius);
+            font-weight: 500;
+            font-size: 16px;
+            border: none;
+            cursor: pointer;
+            transition: var(--transition);
+            gap: 8px;
+        }
+
+        .btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .btn-secondary {
+            background-color: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--primary);
+            color: white;
+        }
+
+        .section-title {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .section-title h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 12px;
+        }
+
+        .section-title .divider {
+            width: 60px;
+            height: 3px;
+            background-color: var(--secondary);
+            margin: 0 auto 20px;
+        }
+
+        .section-title p {
+            color: var(--gray);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* ===== Header & Navigation ===== */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 20px 0;
+            transition: var(--transition);
+            box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: var(--primary);
+        }
+
+        .logo span {
+            color: var(--secondary);
+        }
+
+        .nav-desktop {
+            display: flex;
+            gap: 40px;
+            align-items: center;
+        }
+
+        .nav-desktop a {
+            font-weight: 500;
+            font-size: 16px;
+            position: relative;
+            padding: 4px 0;
+        }
+
+        .nav-desktop a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 0;
+            height: 2px;
+            background-color: var(--primary);
+            transition: var(--transition);
+        }
+
+        .nav-desktop a:hover::after,
+        .nav-desktop a.active::after {
+            width: 100%;
+        }
+
+        .translate-btn {
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: var(--radius);
+            font-size: 14px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            gap: 5px;
+            margin-left: 20px;
+        }
+
+        .translate-btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
+        .mobile-menu-btn {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 24px;
+            color: var(--primary);
+            cursor: pointer;
+        }
+
+        /* ===== Hero Section ===== */
+        .hero {
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+            background: linear-gradient(135deg, rgba(43, 24, 16, 0.9) 0%, rgba(67, 37, 24, 0.7) 100%),
+                        url('https://images.unsplash.com/photo-1509042239860-f550ce710b93?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80') center/cover no-repeat;
+            color: white;
+            margin-top: 0;
+            padding: 0;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(ellipse at center, transparent 30%, rgba(0,0,0,0.4) 100%);
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 700px;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 20px;
+            animation: fadeInUp 0.8s ease-out;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            margin-bottom: 30px;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s ease-out 0.2s both;
+        }
+
+        .hero-btns {
+            display: flex;
+            gap: 15px;
+            animation: fadeInUp 0.8s ease-out 0.4s both;
+        }
+
+        /* ===== Menu Section ===== */
+        .menu {
+            background-color: white;
+        }
+
+        .menu-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .menu-header h2 {
+            font-size: 2.5rem;
+            color: var(--dark);
+            margin-bottom: 10px;
+        }
+
+        .menu-header h3 {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 30px;
+        }
+
+        .menu-divider {
+            width: 100px;
+            height: 2px;
+            background-color: var(--secondary);
+            margin: 0 auto 30px;
+        }
+
+        /* Menu Table - Exactly like your picture */
+        .menu-category {
+            margin-bottom: 60px;
+        }
+
+        .category-title {
+            font-size: 1.8rem;
+            color: var(--primary);
+            margin-bottom: 25px;
+            text-align: center;
+            padding-bottom: 10px;
+            border-bottom: 2px solid var(--gray-light);
+        }
+
+        .menu-table-simple {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 0 auto;
+            max-width: 800px;
+            font-size: 1rem;
+        }
+
+        .menu-table-simple th {
+            background-color: var(--primary);
+            color: white;
+            padding: 15px 20px;
+            text-align: left;
+            font-weight: 500;
+            font-size: 1.1rem;
+        }
+
+        .menu-table-simple td {
+            padding: 15px 20px;
+            border-bottom: 1px solid var(--gray-light);
+        }
+
+        .menu-table-simple tr:last-child td {
+            border-bottom: 2px solid var(--gray-light);
+        }
+
+        .menu-table-simple tr:nth-child(even) {
+            background-color: rgba(139, 69, 19, 0.02);
+        }
+
+        .menu-table-simple tr:hover {
+            background-color: rgba(212, 167, 106, 0.05);
+        }
+
+        .roasting-simple {
+            font-weight: 500;
+            min-width: 80px;
+            display: inline-block;
+        }
+
+        .roasting-light { color: #92400E; }
+        .roasting-medium { color: #3730A3; }
+        .roasting-dark { color: #1F2937; }
+
+        .price-simple {
+            color: var(--primary);
+            font-weight: 600;
+            font-size: 1.1rem;
+            min-width: 70px;
+            display: inline-block;
+        }
+
+        /* Menu Item Structure for Translation */
+        .menu-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            width: 100%;
+        }
+
+        .menu-item-name {
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .menu-item-roast {
+            width: 100px;
+            text-align: center;
+        }
+
+        .menu-item-price {
+            width: 80px;
+            text-align: right;
+        }
+
+        /* Reservation Policy Below Menu */
+        .reservation-policy {
+            max-width: 800px;
+            margin: 50px auto 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #FFF8E1 0%, #FFF3CD 100%);
+            border-radius: var(--radius);
+            border-left: 4px solid #FFB300;
+            box-shadow: var(--shadow);
+        }
+
+        .reservation-policy h4 {
+            color: #E65100;
+            margin-bottom: 15px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .reservation-policy h4 i {
+            color: #FFB300;
+        }
+
+        /* ===== Visit Us Section (2nd Last) ===== */
+        .visit {
+            background-color: var(--light);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .visit::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, rgba(139, 69, 19, 0.05) 0%, rgba(212, 167, 106, 0.05) 100%);
+            z-index: 0;
+        }
+
+        .visit-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .visit-info h3 {
+            font-size: 1.8rem;
+            margin-bottom: 30px;
+            color: var(--dark);
+        }
+
+        .visit-item {
+            display: flex;
+            align-items: flex-start;
+            margin-bottom: 25px;
+        }
+
+        .visit-icon {
+            background-color: white;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-right: 15px;
+            color: var(--primary);
+            font-size: 20px;
+            flex-shrink: 0;
+            box-shadow: var(--shadow);
+        }
+
+        .visit-details h4 {
+            margin-bottom: 5px;
+            font-size: 16px;
+        }
+
+        .visit-details p {
+            color: var(--gray);
+        }
+
+        .hours-card {
+            background: linear-gradient(135deg, white 0%, #FCF9F5 100%);
+            border-radius: var(--radius);
+            padding: 30px;
+            box-shadow: var(--shadow);
+            margin-top: 30px;
+            border: 2px solid var(--secondary);
+        }
+
+        .hours-card h4 {
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-size: 1.3rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .hours-card h4 i {
+            color: var(--secondary);
+        }
+
+        .hours-list {
+            list-style: none;
+        }
+
+        .hours-list li {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 12px;
+            padding-bottom: 12px;
+            border-bottom: 1px dashed var(--gray-light);
+        }
+
+        .hours-list li:last-child {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .hours-list .closed {
+            color: #FF6B6B;
+            font-weight: 600;
+        }
+
+        .hours-list span {
+            color: var(--primary);
+            font-weight: 500;
+        }
+
+        .visit-image {
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-hover);
+            height: 500px;
+        }
+
+        .visit-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: var(--transition);
+        }
+
+        .visit-image:hover img {
+            transform: scale(1.05);
+        }
+
+        .map-container {
+            border-radius: var(--radius);
+            overflow: hidden;
+            box-shadow: var(--shadow-hover);
+            height: 300px;
+            margin-top: 30px;
+            border: 3px solid var(--light);
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+
+        /* ===== About Section (Last) ===== */
+        .about {
+            background-color: white;
+        }
+
+        .about-highlight {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-light) 100%);
+            color: white;
+            padding: 40px;
+            border-radius: var(--radius);
+            margin-bottom: 40px;
+            box-shadow: var(--shadow-hover);
+            text-align: center;
+        }
+
+        .about-highlight h3 {
+            font-size: 1.8rem;
+            margin-bottom: 15px;
+            color: white;
+        }
+
+        .about-content {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .about-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-top: 40px;
+        }
+
+        .about-card {
+            background-color: var(--light);
+            padding: 30px;
+            border-radius: var(--radius);
+            text-align: center;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+        }
+
+        .about-card:hover {
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-hover);
+        }
+
+        .about-card i {
+            color: var(--primary);
+            font-size: 40px;
+            margin-bottom: 20px;
+        }
+
+        .about-card h4 {
+            margin-bottom: 15px;
+            color: var(--dark);
+        }
+
+        /* ===== Footer ===== */
+        footer {
+            background-color: var(--dark);
+            color: white;
+            padding: 60px 0 30px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 40px;
+            margin-bottom: 40px;
+        }
+
+        .footer-logo {
+            font-family: 'Playfair Display', serif;
+            font-size: 28px;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 20px;
+            display: block;
+        }
+
+        .footer-logo span {
+            color: var(--secondary);
+        }
+
+        .footer-about p {
+            color: #B0B7C3;
+            margin-bottom: 25px;
+        }
+
+        .footer-links h4,
+        .footer-social h4 {
+            color: var(--secondary);
+            margin-bottom: 20px;
+            font-size: 18px;
+        }
+
+        .footer-links ul {
+            list-style: none;
+        }
+
+        .footer-links li {
+            margin-bottom: 10px;
+        }
+
+        .footer-links a {
+            color: #B0B7C3;
+            transition: var(--transition);
+        }
+
+        .footer-links a:hover {
+            color: var(--secondary);
+            padding-left: 5px;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 15px;
+        }
+
+        .social-icon {
+            width: 40px;
+            height: 40px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            transition: var(--transition);
+        }
+
+        .social-icon:hover {
+            background-color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: #9CA3AF;
+            font-size: 14px;
+        }
+
+        /* ===== Language Toggle Styles ===== */
+        .lang-en {
+            display: none;
+        }
+
+        body.english .lang-zh {
+            display: none;
+        }
+
+        body.english .lang-en {
+            display: block;
+        }
+
+        body.english .translate-btn .lang-zh {
+            display: inline;
+        }
+
+        body.english .translate-btn .lang-en {
+            display: none;
+        }
+
+        .translate-btn .lang-en {
+            display: none;
+        }
+
+        body:not(.english) .translate-btn .lang-zh {
+            display: none;
+        }
+
+        body:not(.english) .translate-btn .lang-en {
+            display: inline;
+        }
+
+        /* ===== Animations ===== */
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* ===== Responsive Styles ===== */
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 2.8rem; }
+            .visit-grid, .menu-grid { grid-template-columns: 1fr; gap: 40px; }
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu-btn { display: block; }
+            
+            .nav-desktop {
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                background-color: white;
+                flex-direction: column;
+                align-items: center;
+                padding: 20px;
+                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
+                transform: translateY(-100%);
+                opacity: 0;
+                transition: var(--transition);
+                z-index: 999;
+            }
+            
+            .nav-desktop.active {
+                transform: translateY(0);
+                opacity: 1;
+            }
+            
+            .hero h1 { font-size: 2.3rem; }
+            .section-title h2 { font-size: 2rem; }
+            .hero-btns { flex-direction: column; }
+            .menu-header h2 { font-size: 2rem; }
+            .menu-header h3 { font-size: 1.5rem; }
+            .reservation-policy { padding: 20px; }
+            .menu-table-simple { font-size: 0.9rem; }
+        }
+
+        @media (max-width: 576px) {
+            .hero h1 { font-size: 2rem; }
+            .btn { padding: 12px 24px; }
+            .menu-table-simple { display: block; overflow-x: auto; }
+            .footer-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="#" class="logo">
+                <span class="lang-zh">輕旅<span>咖啡</span></span>
+                <span class="lang-en">Jaunt<span>Coffee</span></span>
+            </a>
+            
+            <nav class="nav-desktop" id="navMenu">
+                <a href="#home" class="active">
+                    <span class="lang-zh">首頁</span>
+                    <span class="lang-en">Home</span>
+                </a>
+                <a href="#menu">
+                    <span class="lang-zh">菜單</span>
+                    <span class="lang-en">Menu</span>
+                </a>
+                <a href="#visit">
+                    <span class="lang-zh">拜訪我們</span>
+                    <span class="lang-en">Visit Us</span>
+                </a>
+                <a href="#about">
+                    <span class="lang-zh">關於我們</span>
+                    <span class="lang-en">About</span>
+                </a>
+                <button class="translate-btn" id="translateBtn">
+                    <i class="fas fa-language"></i>
+                    <span class="lang-zh">EN</span>
+                    <span class="lang-en">中文</span>
+                </button>
+            </nav>
+            
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero" id="home">
+        <div class="container">
+            <div class="hero-content">
+                <h1>Life is short, so enjoy the Jaunt.</h1>
+                <p class="lang-zh">專業手沖咖啡，品味每一滴美好旅程</p>
+                <p class="lang-en">Specialty hand drip coffee in the heart of Taichung. Where every cup is a journey.</p>
+                <div class="hero-btns">
+                    <a href="#menu" class="btn">
+                        <i class="fas fa-coffee"></i> 
+                        <span class="lang-zh">查看菜單</span>
+                        <span class="lang-en">View Menu</span>
+                    </a>
+                    <a href="#visit" class="btn btn-secondary">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <span class="lang-zh">立即拜訪</span>
+                        <span class="lang-en">Visit Now</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Menu Section - Exactly like your picture -->
+    <section class="menu" id="menu">
+        <div class="container">
+            <div class="menu-header">
+                <h2 class="lang-zh">輕旅咖啡</h2>
+                <h2 class="lang-en">Jaunt Coffee</h2>
+                <h3 class="lang-zh">HAND DRIP CAFE MENU</h3>
+                <h3 class="lang-en">HAND DRIP CAFE MENU</h3>
+                <div class="menu-divider"></div>
+            </div>
+            
+            <!-- Single Origin Coffee -->
+            <div class="menu-category">
+                <h3 class="category-title lang-zh">單品手沖咖啡</h3>
+                <h3 class="category-title lang-en">SINGLE ORIGIN HAND DRIP COFFEE</h3>
+                <table class="menu-table-simple">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span class="lang-zh">品項</span>
+                                <span class="lang-en">Coffee</span>
+                            </th>
+                            <th>
+                                <span class="lang-zh">烘焙深度</span>
+                                <span class="lang-en">Roast Level</span>
+                            </th>
+                            <th>
+                                <span class="lang-zh">價位</span>
+                                <span class="lang-en">Price</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Each row structured for clean translation -->
+                        <tr>
+                            <td>
+                                <div class="menu-item-name lang-zh">黃金曼巴</div>
+                                <div class="menu-item-name lang-en">Golden Mamba</div>
+                            </td>
+                            <td>
+                                <span class="roasting-simple roasting-medium lang-zh">中深</span>
+                                <span class="roasting-simple roasting-medium lang-en">Medium Dark</span>
+                            </td>
+                            <td class="price-simple">250</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="menu-item-name lang-zh">坦尚尼亞 黑珍珠</div>
+                                <div class="menu-item-name lang-en">Tanzania Black Pearl</div>
+                            </td>
+                            <td>
+                                <span class="roasting-simple roasting-medium lang-zh">中深</span>
+                                <span class="roasting-simple roasting-medium lang-en">Medium Dark</span>
+                            </td>
+                            <td class="price-simple">260</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="menu-item-name lang-zh">耶加雪菲61</div>
+                                <div class="menu-item-name lang-en">Yirgacheffe 61</div>
+                            </td>
+                            <td>
+                                <span class="roasting-simple roasting-light lang-zh">中淺</span>
+                                <span class="roasting-simple roasting-light lang-en">Medium Light</span>
+                            </td>
+                            <td class="price-simple">260</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="menu-item-name lang-zh">瓜地馬拉 花神</div>
+                                <div class="menu-item-name lang-en">Guatemala La Flor</div>
+                            </td>
+                            <td>
+                                <span class="roasting-simple roasting-light lang-zh">中淺</span>
+                                <span class="roasting-simple roasting-light lang-en">Medium Light</span>
+                            </td>
+                            <td class="price-simple">280</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="menu-item-name lang-zh">巴西 伊帕內瑪莊園 頂級黑</div>
+                                <div class="menu-item-name lang-en">Brazil Ipanema Estate Premium Black</div>
+                            </td>
+                            <td>
+                                <span class="roasting-simple roasting-light lang-zh">中淺</span>
+                                <span class="roasting-simple roasting-light lang-en">Medium Light</span>
+                            </td>
+                            <td class="price-simple">280</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="menu-item-name lang-zh">衣索比亞 希達馬61</div>
+                                <div class="menu-item-name lang-en">Ethiopia Sidamo 61</div>
+                            </td>
+                            <td>
+                                <span class="roasting-simple roasting-light lang-zh">中淺</span>
+                                <span class="roasting-simple roasting-light lang-en">Medium Light</span>
+                            </td>
+                            <td class="price-simple">280</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="menu-item-name lang-zh">尼加拉瓜 花語</div>
+                                <div class="menu-item-name lang-en">Nicaragua Flower Language</div>
+                            </td>
+                            <td>
+                                <span class="roasting-simple roasting-medium lang-zh">中</span>
+                                <span class="roasting-simple roasting-medium lang-en">Medium</span>
+                            </td>
+                            <td class="price-simple">280</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="menu-item-name lang-zh">巴拿馬 藝伎</div>
+                                <div class="menu-item-name lang-en">Panama Geisha</div>
+                            </td>
+                            <td>
+                                <span class="roasting-simple roasting-medium lang-zh">中</span>
+                                <span class="roasting-simple roasting-medium lang-en">Medium</span>
+                            </td>
+                            <td class="price-simple">300</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="menu-item-name lang-zh">哥倫比亞 酒神</div>
+                                <div class="menu-item-name lang-en">Colombia Dionysus</div>
+                            </td>
+                            <td>
+                                <span class="roasting-simple roasting-medium lang-zh">中</span>
+                                <span class="roasting-simple roasting-medium lang-en">Medium</span>
+                            </td>
+                            <td class="price-simple">300</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            
+            <!-- Daily Limited -->
+            <div class="menu-category">
+                <h3 class="category-title lang-zh">每日限量</h3>
+                <h3 class="category-title lang-en">DAILY LIMITED</h3>
+                <table class="menu-table-simple">
+                    <thead>
+                        <tr>
+                            <th>
+                                <span class="lang-zh">品項</span>
+                                <span class="lang-en">Coffee</span>
+                            </th>
+                            <th>
+                                <span class="lang-zh">烘焙深度</span>
+                                <span class="lang-en">Roast Level</span>
+                            </th>
+                            <th>
+                                <span class="lang-zh">價位</span>
+                                <span class="lang-en">Price</span>
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>
+                                <div class="menu-item-name lang-zh">釀酒人 紅酒</div>
+                                <div class="menu-item-name lang-en">Brewer's Red Wine</div>
+                            </td>
+                            <td>
+                                <span class="roasting-simple roasting-light lang-zh">中淺</span>
+                                <span class="roasting-simple roasting-light lang-en">Medium Light</span>
+                            </td>
+                            <td class="price-simple">320</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="menu-item-name lang-zh">音樂家 莫札特</div>
+                                <div class="menu-item-name lang-en">Musician Mozart</div>
+                            </td>
+                            <td>
+                                <span class="roasting-simple roasting-light lang-zh">淺</span>
+                                <span class="roasting-simple roasting-light lang-en">Light</span>
+                            </td>
+                            <td class="price-simple">320</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Reservation Policy Below Menu -->
+            <div class="reservation-policy">
+                <h4><i class="fas fa-exclamation-circle"></i> <span class="lang-zh">訂位須知</span><span class="lang-en">Reservation Policy</span></h4>
+                <p class="lang-zh">我們不接受網路訂位！如需訂位請撥打 <strong>0975-781969</strong>，僅接受前三天預訂。</p>
+                <p class="lang-en">We do not accept online reservations! For reservations, please call <strong>0975-781969</strong>. Only accepts bookings 3 days in advance.</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Visit Us Section (2nd Last) -->
+    <section class="visit" id="visit">
+        <div class="container">
+            <div class="section-title">
+                <h2>
+                    <span class="lang-zh">拜訪我們</span>
+                    <span class="lang-en">Visit Us</span>
+                </h2>
+                <div class="divider"></div>
+                <p class="lang-zh">歡迎蒞臨輕旅咖啡，體驗專業手沖咖啡的美好</p>
+                <p class="lang-en">Welcome to Jaunt Coffee, experience the beauty of professional hand drip coffee</p>
+            </div>
+            
+            <div class="visit-grid">
+                <div class="visit-info">
+                    <h3 class="lang-zh">期待您的光臨</h3>
+                    <h3 class="lang-en">Looking Forward to Your Visit</h3>
+                    
+                    <div class="visit-item">
+                        <div class="visit-icon">
+                            <i class="fas fa-map-marker-alt"></i>
+                        </div>
+                        <div class="visit-details">
+                            <h4 class="lang-zh">地址</h4>
+                            <h4 class="lang-en">Address</h4>
+                            <p>臺中市西屯區福林路461號</p>
+                        </div>
+                    </div>
+                    
+                    <div class="visit-item">
+                        <div class="visit-icon">
+                            <i class="fas fa-phone"></i>
+                        </div>
+                        <div class="visit-details">
+                            <h4 class="lang-zh">電話</h4>
+                            <h4 class="lang-en">Phone</h4>
+                            <p>0975-781969</p>
+                            <p><small class="lang-zh">只接受前三天電話預訂</small><small class="lang-en">Only accepts phone reservations 3 days in advance</small></p>
+                        </div>
+                    </div>
+                    
+                    <div class="visit-item">
+                        <div class="visit-icon">
+                            <i class="fas fa-clock"></i>
+                        </div>
+                        <div class="visit-details">
+                            <h4 class="lang-zh">營業時間</h4>
+                            <h4 class="lang-en">Opening Hours</h4>
+                            <p class="lang-zh">週二至週日：09:00 - 18:00</p>
+                            <p class="lang-en">Tuesday to Sunday: 09:00 - 18:00</p>
+                            <p><strong class="lang-zh">每週一公休</strong><strong class="lang-en">Closed every Monday</strong></p>
+                            <p><small class="lang-zh">最後供餐時間 17:00</small><small class="lang-en">Last food order at 17:00</small></p>
+                        </div>
+                    </div>
+                    
+                    <!-- Opening Hours Card -->
+                    <div class="hours-card">
+                        <h4><i class="fas fa-calendar-alt"></i> <span class="lang-zh">詳細營業時間</span><span class="lang-en">Detailed Opening Hours</span></h4>
+                        <ul class="hours-list">
+                            <li class="closed">
+                                <span class="lang-zh">星期一</span>
+                                <span class="lang-en">Monday</span>
+                                <span class="lang-zh">公休</span>
+                                <span class="lang-en">Closed</span>
+                            </li>
+                            <li>
+                                <span class="lang-zh">星期二</span>
+                                <span class="lang-en">Tuesday</span>
+                                <span>09:00 - 18:00</span>
+                            </li>
+                            <li>
+                                <span class="lang-zh">星期三</span>
+                                <span class="lang-en">Wednesday</span>
+                                <span>09:00 - 18:00</span>
+                            </li>
+                            <li>
+                                <span class="lang-zh">星期四</span>
+                                <span class="lang-en">Thursday</span>
+                                <span>09:00 - 18:00</span>
+                            </li>
+                            <li>
+                                <span class="lang-zh">星期五</span>
+                                <span class="lang-en">Friday</span>
+                                <span>09:00 - 18:00</span>
+                            </li>
+                            <li>
+                                <span class="lang-zh">星期六</span>
+                                <span class="lang-en">Saturday</span>
+                                <span>09:00 - 18:00</span>
+                            </li>
+                            <li>
+                                <span class="lang-zh">星期日</span>
+                                <span class="lang-en">Sunday</span>
+                                <span>09:00 - 18:00</span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                
+                <div>
+                    <div class="visit-image">
+                        <img src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Coffee shop interior">
+                    </div>
+                    
+                    <div class="map-container">
+                        <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d14561.67866064805!2d120.63231521761967!3d24.162215650820794!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x34693d80b5540c6f%3A0x9c3c2b5b5e5c5e5c!2sXitun%20District%2C%20Taichung%20City%2C%20Taiwan!5e0!3m2!1szh-TW!2stw!4v1678888888888!5m2!1szh-TW!2stw" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About Section (Last) -->
+    <section class="about" id="about">
+        <div class="container">
+            <div class="section-title">
+                <h2>
+                    <span class="lang-zh">關於輕旅咖啡</span>
+                    <span class="lang-en">About Jaunt Coffee</span>
+                </h2>
+                <div class="divider"></div>
+                <p class="lang-zh">專業手沖咖啡體驗，帶您品味世界各地的咖啡風味</p>
+                <p class="lang-en">Specialty hand drip coffee experience in Taichung</p>
+            </div>
+            
+            <div class="about-highlight">
+                <h3 class="lang-zh">我們的承諾</h3>
+                <h3 class="lang-en">Our Commitment</h3>
+                <p class="lang-zh">每一杯手沖咖啡都是我們用心挑選、專業烘焙、精心沖煮的藝術品。我們相信，好的咖啡能帶給人們一段美好的旅程。</p>
+                <p class="lang-en">Every hand drip coffee is an artwork that we carefully select, professionally roast, and meticulously brew. We believe good coffee can bring people a wonderful journey.</p>
+            </div>
+            
+            <div class="about-content">
+                <p class="lang-zh" style="text-align: center; margin-bottom: 30px; font-size: 1.1rem;">
+                    輕旅咖啡專注於單品手沖咖啡的藝術，我們嚴選世界各地優質咖啡豆，以專業的烘焙技術和手沖工藝，呈現每一支咖啡豆獨特的風味與靈魂。
+                </p>
+                <p class="lang-en" style="text-align: center; margin-bottom: 30px; font-size: 1.1rem;">
+                    Jaunt Coffee focuses on the art of single-origin hand drip coffee. We carefully select high-quality coffee beans from around the world, using professional roasting techniques and hand drip craftsmanship to present the unique flavor and soul of each coffee bean.
+                </p>
+                
+                <div class="about-cards">
+                    <div class="about-card">
+                        <i class="fas fa-map-marker-alt"></i>
+                        <h4 class="lang-zh">完美地點</h4>
+                        <h4 class="lang-en">Perfect Location</h4>
+                        <p class="lang-zh">位於臺中市西屯區福林路461號，交通便利，環境舒適，是您品味咖啡的理想場所。</p>
+                        <p class="lang-en">Located at No. 461, Fulin Road, Xitun District, Taichung City, with convenient transportation and comfortable environment.</p>
+                    </div>
+                    
+                    <div class="about-card">
+                        <i class="fas fa-coffee"></i>
+                        <h4 class="lang-zh">專業手沖</h4>
+                        <h4 class="lang-en">Professional Hand Drip</h4>
+                        <p class="lang-zh">我們的咖啡師均經過專業訓練，精通各種手沖技巧，能完美呈現每一支咖啡豆的獨特風味。</p>
+                        <p class="lang-en">Our baristas are professionally trained, proficient in various hand drip techniques.</p>
+                    </div>
+                    
+                    <div class="about-card">
+                        <i class="fas fa-leaf"></i>
+                        <h4 class="lang-zh">嚴選豆源</h4>
+                        <h4 class="lang-en">Carefully Selected Beans</h4>
+                        <p class="lang-zh">直接與世界各地的優質莊園合作，確保每一顆咖啡豆都符合我們的嚴格標準。</p>
+                        <p class="lang-en">We work directly with quality estates around the world to ensure every coffee bean meets our strict standards.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-about">
+                    <a href="#" class="footer-logo">
+                        <span class="lang-zh">輕旅<span>咖啡</span></span>
+                        <span class="lang-en">Jaunt<span>Coffee</span></span>
+                    </a>
+                    <p class="lang-zh">專業手沖咖啡廳，提供高品質單品咖啡與舒適的品嚐環境，讓每一杯咖啡都成為一段美好的旅程。</p>
+                    <p class="lang-en">Specialty hand drip coffee shop, offering high-quality single origin coffee and a comfortable tasting environment.</p>
+                </div>
+                
+                <div class="footer-links">
+                    <h4 class="lang-zh">快速連結</h4>
+                    <h4 class="lang-en">Quick Links</h4>
+                    <ul>
+                        <li><a href="#home"><span class="lang-zh">首頁</span><span class="lang-en">Home</span></a></li>
+                        <li><a href="#menu"><span class="lang-zh">咖啡菜單</span><span class="lang-en">Coffee Menu</span></a></li>
+                        <li><a href="#visit"><span class="lang-zh">拜訪我們</span><span class="lang-en">Visit Us</span></a></li>
+                        <li><a href="#about"><span class="lang-zh">關於我們</span><span class="lang-en">About Us</span></a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-social">
+                    <h4 class="lang-zh">關注我們</h4>
+                    <h4 class="lang-en">Follow Us</h4>
+                    <p class="lang-zh">追蹤我們的社群媒體，獲得最新消息</p>
+                    <p class="lang-en">Follow our social media for the latest updates</p>
+                    <div class="social-icons">
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-instagram"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="#" class="social-icon">
+                            <i class="fab fa-line"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>&copy; 2023 <span class="lang-zh">輕旅咖啡 Hand Drip Cafe. 保留所有權利。</span><span class="lang-en">Jaunt Coffee Hand Drip Cafe. All rights reserved.</span></p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const navMenu = document.getElementById('navMenu');
+        
+        mobileMenuBtn.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+            mobileMenuBtn.innerHTML = navMenu.classList.contains('active') 
+                ? '<i class="fas fa-times"></i>' 
+                : '<i class="fas fa-bars"></i>';
+        });
+        
+        // Close mobile menu when clicking on a link
+        document.querySelectorAll('.nav-desktop a').forEach(link => {
+            link.addEventListener('click', () => {
+                navMenu.classList.remove('active');
+                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
+            });
+        });
+        
+        // Language Toggle
+        const translateBtn = document.getElementById('translateBtn');
+        
+        translateBtn.addEventListener('click', () => {
+            document.body.classList.toggle('english');
+            
+            // Update button text based on current language
+            const isEnglish = document.body.classList.contains('english');
+            translateBtn.querySelector('.lang-zh').style.display = isEnglish ? 'inline' : 'none';
+            translateBtn.querySelector('.lang-en').style.display = isEnglish ? 'none' : 'inline';
+        });
+        
+        // Update active nav link on scroll
+        window.addEventListener('scroll', () => {
+            const sections = document.querySelectorAll('section');
+            const navLinks = document.querySelectorAll('.nav-desktop a');
+            
+            let current = '';
+            
+            sections.forEach(section => {
+                const sectionTop = section.offsetTop;
+                const sectionHeight = section.clientHeight;
+                if (scrollY >= sectionTop - 200) {
+                    current = section.getAttribute('id');
+                }
+            });
+            
+            navLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+            
+            // Header background on scroll
+            const header = document.querySelector('header');
+            if (window.scrollY > 50) {
+                header.style.boxShadow = '0 5px 30px rgba(0, 0, 0, 0.1)';
+            } else {
+                header.style.boxShadow = '0 2px 20px rgba(0, 0, 0, 0.05)';
+            }
+        });
+        
+        // Add animation to elements on scroll
+        const observerOptions = {
+            threshold: 0.1,
+            rootMargin: '0px 0px -50px 0px'
+        };
+        
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
+                }
+            });
+        }, observerOptions);
+        
+        // Observe elements for animation
+        document.querySelectorAll('.about-card, .menu-table-simple, .visit-item, .hours-card, .reservation-policy').forEach(el => {
+            el.style.opacity = '0';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
