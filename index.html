@@ -7,7 +7,6 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@300;400;500;700&family=Playfair+Display:wght@400;500;600;700&display=swap" rel="stylesheet">
     <style>
-        /* ===== CSS Variables ===== */
         :root {
             --primary: #8B4513;
             --primary-light: #A0522D;
@@ -23,7 +22,6 @@
             --radius: 12px;
         }
 
-        /* ===== Base Styles ===== */
         * {
             margin: 0;
             padding: 0;
@@ -127,7 +125,6 @@
             margin: 0 auto;
         }
 
-        /* ===== Header & Navigation ===== */
         header {
             position: fixed;
             top: 0;
@@ -152,6 +149,7 @@
             font-size: 28px;
             font-weight: 700;
             color: var(--primary);
+            z-index: 1002;
         }
 
         .logo span {
@@ -207,16 +205,152 @@
             transform: translateY(-2px);
         }
 
-        .mobile-menu-btn {
+        .hamburger-menu {
             display: none;
             background: none;
             border: none;
-            font-size: 24px;
-            color: var(--primary);
             cursor: pointer;
+            width: 30px;
+            height: 24px;
+            position: relative;
+            z-index: 1002;
+            padding: 0;
         }
 
-        /* ===== Hero Section ===== */
+        .hamburger-menu span {
+            display: block;
+            width: 100%;
+            height: 3px;
+            background-color: var(--primary);
+            position: absolute;
+            left: 0;
+            transition: var(--transition);
+            border-radius: 3px;
+        }
+
+        .hamburger-menu span:nth-child(1) {
+            top: 0;
+        }
+
+        .hamburger-menu span:nth-child(2) {
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .hamburger-menu span:nth-child(3) {
+            bottom: 0;
+        }
+
+        .hamburger-menu.active span:nth-child(1) {
+            transform: rotate(45deg);
+            top: 50%;
+        }
+
+        .hamburger-menu.active span:nth-child(2) {
+            opacity: 0;
+            transform: translateX(-10px);
+        }
+
+        .hamburger-menu.active span:nth-child(3) {
+            transform: rotate(-45deg);
+            bottom: 50%;
+        }
+
+        .mobile-menu-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.3s ease, visibility 0.3s ease;
+        }
+
+        .mobile-menu-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .mobile-menu-panel {
+            position: fixed;
+            top: 0;
+            right: -100%;
+            width: 85%;
+            max-width: 350px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -5px 0 30px rgba(0, 0, 0, 0.1);
+            z-index: 1001;
+            transition: right 0.4s ease;
+            padding: 100px 30px 30px;
+            overflow-y: auto;
+        }
+
+        .mobile-menu-panel.active {
+            right: 0;
+        }
+
+        .mobile-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        .mobile-nav a {
+            font-size: 18px;
+            font-weight: 500;
+            padding: 15px;
+            border-radius: var(--radius);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            transition: var(--transition);
+            background-color: rgba(139, 69, 19, 0.05);
+        }
+
+        .mobile-nav a i {
+            width: 24px;
+            color: var(--primary);
+        }
+
+        .mobile-nav a:hover,
+        .mobile-nav a.active {
+            background-color: var(--primary);
+            color: white;
+            transform: translateX(5px);
+        }
+
+        .mobile-nav a:hover i,
+        .mobile-nav a.active i {
+            color: white;
+        }
+
+        .mobile-translate-btn {
+            margin-top: 30px;
+            width: 100%;
+            padding: 15px;
+            background-color: var(--primary);
+            color: white;
+            border: none;
+            border-radius: var(--radius);
+            font-size: 16px;
+            cursor: pointer;
+            transition: var(--transition);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .mobile-translate-btn:hover {
+            background-color: var(--primary-light);
+            transform: translateY(-2px);
+        }
+
         .hero {
             height: 100vh;
             display: flex;
@@ -265,7 +399,6 @@
             animation: fadeInUp 0.8s ease-out 0.4s both;
         }
 
-        /* ===== Menu Section ===== */
         .menu {
             background-color: white;
         }
@@ -294,7 +427,6 @@
             margin: 0 auto 30px;
         }
 
-        /* Menu Table - Exactly like your picture */
         .menu-category {
             margin-bottom: 60px;
         }
@@ -308,11 +440,20 @@
             border-bottom: 2px solid var(--gray-light);
         }
 
+        .menu-table-wrapper {
+            width: 100%;
+            overflow-x: auto;
+            -webkit-overflow-scrolling: touch;
+            margin: 0 auto;
+            border-radius: var(--radius);
+            border: 1px solid var(--gray-light);
+        }
+
         .menu-table-simple {
             width: 100%;
+            min-width: 600px;
             border-collapse: collapse;
             margin: 0 auto;
-            max-width: 800px;
             font-size: 1rem;
         }
 
@@ -331,7 +472,7 @@
         }
 
         .menu-table-simple tr:last-child td {
-            border-bottom: 2px solid var(--gray-light);
+            border-bottom: none;
         }
 
         .menu-table-simple tr:nth-child(even) {
@@ -360,30 +501,6 @@
             display: inline-block;
         }
 
-        /* Menu Item Structure for Translation */
-        .menu-item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            width: 100%;
-        }
-
-        .menu-item-name {
-            flex: 1;
-            min-width: 200px;
-        }
-
-        .menu-item-roast {
-            width: 100px;
-            text-align: center;
-        }
-
-        .menu-item-price {
-            width: 80px;
-            text-align: right;
-        }
-
-        /* Reservation Policy Below Menu */
         .reservation-policy {
             max-width: 800px;
             margin: 50px auto 0;
@@ -407,7 +524,6 @@
             color: #FFB300;
         }
 
-        /* ===== Visit Us Section (2nd Last) ===== */
         .visit {
             background-color: var(--light);
             position: relative;
@@ -553,7 +669,6 @@
             border: none;
         }
 
-        /* ===== About Section (Last) ===== */
         .about {
             background-color: white;
         }
@@ -611,7 +726,6 @@
             color: var(--dark);
         }
 
-        /* ===== Footer ===== */
         footer {
             background-color: var(--dark);
             color: white;
@@ -699,7 +813,6 @@
             font-size: 14px;
         }
 
-        /* ===== Language Toggle Styles ===== */
         .lang-en {
             display: none;
         }
@@ -732,7 +845,21 @@
             display: inline;
         }
 
-        /* ===== Animations ===== */
+        body.english .nav-desktop .lang-zh,
+        body.english .mobile-nav .lang-zh {
+            display: none;
+        }
+
+        body.english .nav-desktop .lang-en,
+        body.english .mobile-nav .lang-en {
+            display: inline;
+        }
+
+        body:not(.english) .nav-desktop .lang-en,
+        body:not(.english) .mobile-nav .lang-en {
+            display: none;
+        }
+
         @keyframes fadeInUp {
             from {
                 opacity: 0;
@@ -744,61 +871,66 @@
             }
         }
 
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        /* ===== Responsive Styles ===== */
         @media (max-width: 992px) {
             .hero h1 { font-size: 2.8rem; }
-            .visit-grid, .menu-grid { grid-template-columns: 1fr; gap: 40px; }
+            .section-title h2 { font-size: 2.2rem; }
+            .visit-grid { grid-template-columns: 1fr; gap: 40px; }
             .footer-grid { grid-template-columns: repeat(2, 1fr); }
         }
 
         @media (max-width: 768px) {
-            .mobile-menu-btn { display: block; }
-            
-            .nav-desktop {
-                position: fixed;
-                top: 80px;
-                left: 0;
-                width: 100%;
-                background-color: white;
-                flex-direction: column;
-                align-items: center;
-                padding: 20px;
-                box-shadow: 0 10px 30px rgba(0, 0, 0, 0.1);
-                transform: translateY(-100%);
-                opacity: 0;
-                transition: var(--transition);
-                z-index: 999;
+            .hamburger-menu {
+                display: block;
             }
             
-            .nav-desktop.active {
-                transform: translateY(0);
-                opacity: 1;
+            .nav-desktop {
+                display: none;
             }
             
             .hero h1 { font-size: 2.3rem; }
             .section-title h2 { font-size: 2rem; }
             .hero-btns { flex-direction: column; }
-            .menu-header h2 { font-size: 2rem; }
-            .menu-header h3 { font-size: 1.5rem; }
-            .reservation-policy { padding: 20px; }
-            .menu-table-simple { font-size: 0.9rem; }
+            
+            header {
+                padding: 15px 0;
+            }
+            
+            .logo {
+                font-size: 24px;
+            }
+            
+            .menu-table-simple {
+                min-width: 550px;
+                font-size: 0.9rem;
+            }
+            
+            .menu-table-simple th,
+            .menu-table-simple td {
+                padding: 12px 15px;
+            }
         }
 
         @media (max-width: 576px) {
             .hero h1 { font-size: 2rem; }
-            .btn { padding: 12px 24px; }
-            .menu-table-simple { display: block; overflow-x: auto; }
+            .btn { padding: 12px 24px; width: 100%; }
+            .hero-btns { width: 100%; }
+            .section-title h2 { font-size: 1.8rem; }
+            
+            .mobile-menu-panel {
+                width: 100%;
+                max-width: none;
+                padding: 100px 20px 30px;
+            }
+            
+            .menu-table-simple {
+                min-width: 500px;
+            }
+            
             .footer-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
 <body>
-    <!-- Header -->
     <header>
         <div class="container header-container">
             <a href="#" class="logo">
@@ -806,7 +938,7 @@
                 <span class="lang-en">Jaunt<span>Coffee</span></span>
             </a>
             
-            <nav class="nav-desktop" id="navMenu">
+            <nav class="nav-desktop">
                 <a href="#home" class="active">
                     <span class="lang-zh">首頁</span>
                     <span class="lang-en">Home</span>
@@ -830,13 +962,47 @@
                 </button>
             </nav>
             
-            <button class="mobile-menu-btn" id="mobileMenuBtn">
-                <i class="fas fa-bars"></i>
+            <button class="hamburger-menu" id="hamburgerMenu">
+                <span></span>
+                <span></span>
+                <span></span>
             </button>
         </div>
     </header>
 
-    <!-- Hero Section -->
+    <div class="mobile-menu-overlay" id="mobileOverlay"></div>
+
+    <div class="mobile-menu-panel" id="mobilePanel">
+        <nav class="mobile-nav">
+            <a href="#home" class="active">
+                <i class="fas fa-home"></i>
+                <span class="lang-zh">首頁</span>
+                <span class="lang-en">Home</span>
+            </a>
+            <a href="#menu">
+                <i class="fas fa-coffee"></i>
+                <span class="lang-zh">菜單</span>
+                <span class="lang-en">Menu</span>
+            </a>
+            <a href="#visit">
+                <i class="fas fa-map-marker-alt"></i>
+                <span class="lang-zh">拜訪我們</span>
+                <span class="lang-en">Visit Us</span>
+            </a>
+            <a href="#about">
+                <i class="fas fa-info-circle"></i>
+                <span class="lang-zh">關於我們</span>
+                <span class="lang-en">About</span>
+            </a>
+        </nav>
+        
+        <button class="mobile-translate-btn" id="mobileTranslateBtn">
+            <i class="fas fa-language"></i>
+            <span class="lang-zh">切換至英文</span>
+            <span class="lang-en">Switch to Chinese</span>
+        </button>
+    </div>
+
     <section class="hero" id="home">
         <div class="container">
             <div class="hero-content">
@@ -859,7 +1025,6 @@
         </div>
     </section>
 
-    <!-- Menu Section - Exactly like your picture -->
     <section class="menu" id="menu">
         <div class="container">
             <div class="menu-header">
@@ -870,181 +1035,148 @@
                 <div class="menu-divider"></div>
             </div>
             
-            <!-- Single Origin Coffee -->
             <div class="menu-category">
                 <h3 class="category-title lang-zh">單品手沖咖啡</h3>
                 <h3 class="category-title lang-en">SINGLE ORIGIN HAND DRIP COFFEE</h3>
-                <table class="menu-table-simple">
-                    <thead>
-                        <tr>
-                            <th>
-                                <span class="lang-zh">品項</span>
-                                <span class="lang-en">Coffee</span>
-                            </th>
-                            <th>
-                                <span class="lang-zh">烘焙深度</span>
-                                <span class="lang-en">Roast Level</span>
-                            </th>
-                            <th>
-                                <span class="lang-zh">價位</span>
-                                <span class="lang-en">Price</span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <!-- Each row structured for clean translation -->
-                        <tr>
-                            <td>
-                                <div class="menu-item-name lang-zh">黃金曼巴</div>
-                                <div class="menu-item-name lang-en">Golden Mamba</div>
-                            </td>
-                            <td>
-                                <span class="roasting-simple roasting-medium lang-zh">中深</span>
-                                <span class="roasting-simple roasting-medium lang-en">Medium Dark</span>
-                            </td>
-                            <td class="price-simple">250</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="menu-item-name lang-zh">坦尚尼亞 黑珍珠</div>
-                                <div class="menu-item-name lang-en">Tanzania Black Pearl</div>
-                            </td>
-                            <td>
-                                <span class="roasting-simple roasting-medium lang-zh">中深</span>
-                                <span class="roasting-simple roasting-medium lang-en">Medium Dark</span>
-                            </td>
-                            <td class="price-simple">260</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="menu-item-name lang-zh">耶加雪菲61</div>
-                                <div class="menu-item-name lang-en">Yirgacheffe 61</div>
-                            </td>
-                            <td>
-                                <span class="roasting-simple roasting-light lang-zh">中淺</span>
-                                <span class="roasting-simple roasting-light lang-en">Medium Light</span>
-                            </td>
-                            <td class="price-simple">260</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="menu-item-name lang-zh">瓜地馬拉 花神</div>
-                                <div class="menu-item-name lang-en">Guatemala La Flor</div>
-                            </td>
-                            <td>
-                                <span class="roasting-simple roasting-light lang-zh">中淺</span>
-                                <span class="roasting-simple roasting-light lang-en">Medium Light</span>
-                            </td>
-                            <td class="price-simple">280</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="menu-item-name lang-zh">巴西 伊帕內瑪莊園 頂級黑</div>
-                                <div class="menu-item-name lang-en">Brazil Ipanema Estate Premium Black</div>
-                            </td>
-                            <td>
-                                <span class="roasting-simple roasting-light lang-zh">中淺</span>
-                                <span class="roasting-simple roasting-light lang-en">Medium Light</span>
-                            </td>
-                            <td class="price-simple">280</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="menu-item-name lang-zh">衣索比亞 希達馬61</div>
-                                <div class="menu-item-name lang-en">Ethiopia Sidamo 61</div>
-                            </td>
-                            <td>
-                                <span class="roasting-simple roasting-light lang-zh">中淺</span>
-                                <span class="roasting-simple roasting-light lang-en">Medium Light</span>
-                            </td>
-                            <td class="price-simple">280</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="menu-item-name lang-zh">尼加拉瓜 花語</div>
-                                <div class="menu-item-name lang-en">Nicaragua Flower Language</div>
-                            </td>
-                            <td>
-                                <span class="roasting-simple roasting-medium lang-zh">中</span>
-                                <span class="roasting-simple roasting-medium lang-en">Medium</span>
-                            </td>
-                            <td class="price-simple">280</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="menu-item-name lang-zh">巴拿馬 藝伎</div>
-                                <div class="menu-item-name lang-en">Panama Geisha</div>
-                            </td>
-                            <td>
-                                <span class="roasting-simple roasting-medium lang-zh">中</span>
-                                <span class="roasting-simple roasting-medium lang-en">Medium</span>
-                            </td>
-                            <td class="price-simple">300</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="menu-item-name lang-zh">哥倫比亞 酒神</div>
-                                <div class="menu-item-name lang-en">Colombia Dionysus</div>
-                            </td>
-                            <td>
-                                <span class="roasting-simple roasting-medium lang-zh">中</span>
-                                <span class="roasting-simple roasting-medium lang-en">Medium</span>
-                            </td>
-                            <td class="price-simple">300</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="menu-table-wrapper">
+                    <table class="menu-table-simple">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="lang-zh">品項</span>
+                                    <span class="lang-en">Coffee</span>
+                                </th>
+                                <th>
+                                    <span class="lang-zh">烘焙深度</span>
+                                    <span class="lang-en">Roast Level</span>
+                                </th>
+                                <th>
+                                    <span class="lang-zh">價位</span>
+                                    <span class="lang-en">Price</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="menu-item-name lang-zh">黃金曼巴</div>
+                                    <div class="menu-item-name lang-en">Golden Mamba</div>
+                                </td>
+                                <td>
+                                    <span class="roasting-simple roasting-medium lang-zh">中深</span>
+                                    <span class="roasting-simple roasting-medium lang-en">Medium Dark</span>
+                                </td>
+                                <td class="price-simple">250</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="menu-item-name lang-zh">坦尚尼亞 黑珍珠</div>
+                                    <div class="menu-item-name lang-en">Tanzania Black Pearl</div>
+                                </td>
+                                <td>
+                                    <span class="roasting-simple roasting-medium lang-zh">中深</span>
+                                    <span class="roasting-simple roasting-medium lang-en">Medium Dark</span>
+                                </td>
+                                <td class="price-simple">260</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="menu-item-name lang-zh">耶加雪菲61</div>
+                                    <div class="menu-item-name lang-en">Yirgacheffe 61</div>
+                                </td>
+                                <td>
+                                    <span class="roasting-simple roasting-light lang-zh">中淺</span>
+                                    <span class="roasting-simple roasting-light lang-en">Medium Light</span>
+                                </td>
+                                <td class="price-simple">260</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="menu-item-name lang-zh">瓜地馬拉 花神</div>
+                                    <div class="menu-item-name lang-en">Guatemala La Flor</div>
+                                </td>
+                                <td>
+                                    <span class="roasting-simple roasting-light lang-zh">中淺</span>
+                                    <span class="roasting-simple roasting-light lang-en">Medium Light</span>
+                                </td>
+                                <td class="price-simple">280</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="menu-item-name lang-zh">巴西 伊帕內瑪莊園 頂級黑</div>
+                                    <div class="menu-item-name lang-en">Brazil Ipanema Estate Premium Black</div>
+                                </td>
+                                <td>
+                                    <span class="roasting-simple roasting-light lang-zh">中淺</span>
+                                    <span class="roasting-simple roasting-light lang-en">Medium Light</span>
+                                </td>
+                                <td class="price-simple">280</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="menu-item-name lang-zh">衣索比亞 希達馬61</div>
+                                    <div class="menu-item-name lang-en">Ethiopia Sidamo 61</div>
+                                </td>
+                                <td>
+                                    <span class="roasting-simple roasting-light lang-zh">中淺</span>
+                                    <span class="roasting-simple roasting-light lang-en">Medium Light</span>
+                                </td>
+                                <td class="price-simple">280</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
             
-            <!-- Daily Limited -->
             <div class="menu-category">
                 <h3 class="category-title lang-zh">每日限量</h3>
                 <h3 class="category-title lang-en">DAILY LIMITED</h3>
-                <table class="menu-table-simple">
-                    <thead>
-                        <tr>
-                            <th>
-                                <span class="lang-zh">品項</span>
-                                <span class="lang-en">Coffee</span>
-                            </th>
-                            <th>
-                                <span class="lang-zh">烘焙深度</span>
-                                <span class="lang-en">Roast Level</span>
-                            </th>
-                            <th>
-                                <span class="lang-zh">價位</span>
-                                <span class="lang-en">Price</span>
-                            </th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>
-                                <div class="menu-item-name lang-zh">釀酒人 紅酒</div>
-                                <div class="menu-item-name lang-en">Brewer's Red Wine</div>
-                            </td>
-                            <td>
-                                <span class="roasting-simple roasting-light lang-zh">中淺</span>
-                                <span class="roasting-simple roasting-light lang-en">Medium Light</span>
-                            </td>
-                            <td class="price-simple">320</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="menu-item-name lang-zh">音樂家 莫札特</div>
-                                <div class="menu-item-name lang-en">Musician Mozart</div>
-                            </td>
-                            <td>
-                                <span class="roasting-simple roasting-light lang-zh">淺</span>
-                                <span class="roasting-simple roasting-light lang-en">Light</span>
-                            </td>
-                            <td class="price-simple">320</td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="menu-table-wrapper">
+                    <table class="menu-table-simple">
+                        <thead>
+                            <tr>
+                                <th>
+                                    <span class="lang-zh">品項</span>
+                                    <span class="lang-en">Coffee</span>
+                                </th>
+                                <th>
+                                    <span class="lang-zh">烘焙深度</span>
+                                    <span class="lang-en">Roast Level</span>
+                                </th>
+                                <th>
+                                    <span class="lang-zh">價位</span>
+                                    <span class="lang-en">Price</span>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>
+                                    <div class="menu-item-name lang-zh">釀酒人 紅酒</div>
+                                    <div class="menu-item-name lang-en">Brewer's Red Wine</div>
+                                </td>
+                                <td>
+                                    <span class="roasting-simple roasting-light lang-zh">中淺</span>
+                                    <span class="roasting-simple roasting-light lang-en">Medium Light</span>
+                                </td>
+                                <td class="price-simple">320</td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <div class="menu-item-name lang-zh">音樂家 莫札特</div>
+                                    <div class="menu-item-name lang-en">Musician Mozart</div>
+                                </td>
+                                <td>
+                                    <span class="roasting-simple roasting-light lang-zh">淺</span>
+                                    <span class="roasting-simple roasting-light lang-en">Light</span>
+                                </td>
+                                <td class="price-simple">320</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
             </div>
 
-            <!-- Reservation Policy Below Menu -->
             <div class="reservation-policy">
                 <h4><i class="fas fa-exclamation-circle"></i> <span class="lang-zh">訂位須知</span><span class="lang-en">Reservation Policy</span></h4>
                 <p class="lang-zh">我們不接受網路訂位！如需訂位請撥打 <strong>0975-781969</strong>，僅接受前三天預訂。</p>
@@ -1053,7 +1185,6 @@
         </div>
     </section>
 
-    <!-- Visit Us Section (2nd Last) -->
     <section class="visit" id="visit">
         <div class="container">
             <div class="section-title">
@@ -1108,7 +1239,6 @@
                         </div>
                     </div>
                     
-                    <!-- Opening Hours Card -->
                     <div class="hours-card">
                         <h4><i class="fas fa-calendar-alt"></i> <span class="lang-zh">詳細營業時間</span><span class="lang-en">Detailed Opening Hours</span></h4>
                         <ul class="hours-list">
@@ -1165,7 +1295,6 @@
         </div>
     </section>
 
-    <!-- About Section (Last) -->
     <section class="about" id="about">
         <div class="container">
             <div class="section-title">
@@ -1222,7 +1351,6 @@
         </div>
     </section>
 
-    <!-- Footer -->
     <footer>
         <div class="container">
             <div class="footer-grid">
@@ -1272,60 +1400,83 @@
     </footer>
 
     <script>
-        // Mobile Menu Toggle
-        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
-        const navMenu = document.getElementById('navMenu');
-        
-        mobileMenuBtn.addEventListener('click', () => {
-            navMenu.classList.toggle('active');
-            mobileMenuBtn.innerHTML = navMenu.classList.contains('active') 
-                ? '<i class="fas fa-times"></i>' 
-                : '<i class="fas fa-bars"></i>';
-        });
-        
-        // Close mobile menu when clicking on a link
-        document.querySelectorAll('.nav-desktop a').forEach(link => {
-            link.addEventListener('click', () => {
-                navMenu.classList.remove('active');
-                mobileMenuBtn.innerHTML = '<i class="fas fa-bars"></i>';
-            });
-        });
-        
-        // Language Toggle
+        const hamburgerMenu = document.getElementById('hamburgerMenu');
+        const mobileOverlay = document.getElementById('mobileOverlay');
+        const mobilePanel = document.getElementById('mobilePanel');
+        const mobileTranslateBtn = document.getElementById('mobileTranslateBtn');
         const translateBtn = document.getElementById('translateBtn');
         
-        translateBtn.addEventListener('click', () => {
-            document.body.classList.toggle('english');
-            
-            // Update button text based on current language
-            const isEnglish = document.body.classList.contains('english');
-            translateBtn.querySelector('.lang-zh').style.display = isEnglish ? 'inline' : 'none';
-            translateBtn.querySelector('.lang-en').style.display = isEnglish ? 'none' : 'inline';
+        function openMobileMenu() {
+            hamburgerMenu.classList.add('active');
+            mobileOverlay.classList.add('active');
+            mobilePanel.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+        
+        function closeMobileMenu() {
+            hamburgerMenu.classList.remove('active');
+            mobileOverlay.classList.remove('active');
+            mobilePanel.classList.remove('active');
+            document.body.style.overflow = '';
+        }
+        
+        hamburgerMenu.addEventListener('click', openMobileMenu);
+        mobileOverlay.addEventListener('click', closeMobileMenu);
+        
+        document.querySelectorAll('.mobile-nav a').forEach(link => {
+            link.addEventListener('click', closeMobileMenu);
         });
         
-        // Update active nav link on scroll
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && mobilePanel.classList.contains('active')) {
+                closeMobileMenu();
+            }
+        });
+        
+        function toggleLanguage() {
+            document.body.classList.toggle('english');
+        }
+        
+        if (translateBtn) {
+            translateBtn.addEventListener('click', toggleLanguage);
+        }
+        
+        if (mobileTranslateBtn) {
+            mobileTranslateBtn.addEventListener('click', () => {
+                toggleLanguage();
+                closeMobileMenu();
+            });
+        }
+        
         window.addEventListener('scroll', () => {
             const sections = document.querySelectorAll('section');
-            const navLinks = document.querySelectorAll('.nav-desktop a');
+            const desktopLinks = document.querySelectorAll('.nav-desktop a');
+            const mobileLinks = document.querySelectorAll('.mobile-nav a');
             
             let current = '';
             
             sections.forEach(section => {
                 const sectionTop = section.offsetTop;
                 const sectionHeight = section.clientHeight;
-                if (scrollY >= sectionTop - 200) {
+                if (scrollY >= sectionTop - 100) {
                     current = section.getAttribute('id');
                 }
             });
             
-            navLinks.forEach(link => {
+            desktopLinks.forEach(link => {
                 link.classList.remove('active');
                 if (link.getAttribute('href').substring(1) === current) {
                     link.classList.add('active');
                 }
             });
             
-            // Header background on scroll
+            mobileLinks.forEach(link => {
+                link.classList.remove('active');
+                if (link.getAttribute('href').substring(1) === current) {
+                    link.classList.add('active');
+                }
+            });
+            
             const header = document.querySelector('header');
             if (window.scrollY > 50) {
                 header.style.boxShadow = '0 5px 30px rgba(0, 0, 0, 0.1)';
@@ -1334,24 +1485,21 @@
             }
         });
         
-        // Add animation to elements on scroll
-        const observerOptions = {
-            threshold: 0.1,
-            rootMargin: '0px 0px -50px 0px'
-        };
-        
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.animation = 'fadeInUp 0.6s ease-out forwards';
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                if (this.getAttribute('href') === '#') return;
+                
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                const targetElement = document.querySelector(targetId);
+                
+                if (targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
                 }
             });
-        }, observerOptions);
-        
-        // Observe elements for animation
-        document.querySelectorAll('.about-card, .menu-table-simple, .visit-item, .hours-card, .reservation-policy').forEach(el => {
-            el.style.opacity = '0';
-            observer.observe(el);
         });
     </script>
 </body>
